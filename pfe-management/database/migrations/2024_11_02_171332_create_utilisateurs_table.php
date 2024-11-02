@@ -19,10 +19,8 @@ return new class extends Migration
             $table->string('prenom');
             $table->enum('type_utilisateur', ['enseignant', 'étudiant', 'entreprise', 'administrateur', 'responsable_master']);
             $table->timestamps();
-
-            $table->foreign('id')->references('id')->on('utilisateurs')->onDelete('cascade');
-
         });
+        
         
     }
 

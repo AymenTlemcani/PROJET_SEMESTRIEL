@@ -11,27 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Step 1: Create the 'etudiants' table without the foreign key on 'binome_id'
         Schema::create('etudiants', function (Blueprint $table) {
-            // Define 'id' as unsigned big integer and set as primary key
+            // Définir 'id' comme clé primaire et clé étrangère vers 'utilisateurs.id'
             $table->unsignedBigInteger('id')->primary();
-
             $table->string('email_universite');
             $table->string('option_master');
             $table->decimal('moyenne_m1', 4, 2);
-
-            // Define 'binome_id' as unsigned big integer (foreign key to be added later)
             $table->unsignedBigInteger('binome_id')->nullable();
-
             $table->timestamps();
-        });
 
-        // Step 2: Add foreign key constraint to 'id' referencing 'utilisateurs.id'
-        Schema::table('etudiants', function (Blueprint $table) {
+            // Ajouter la contrainte de clé étrangère sur 'id' vers 'utilisateurs.id' avec 'ON DELETE CASCADE'
             $table->foreign('id')->references('id')->on('utilisateurs')->onDelete('cascade');
         });
 
-        // Step 3: Add the foreign key constraint to 'binome_id' after the table has been created
+        // Ajouter la contrainte de clé étrangère sur 'binome_id' après la création de la table
         Schema::table('etudiants', function (Blueprint $table) {
             $table->foreign('binome_id')
                   ->references('id')->on('etudiants')
